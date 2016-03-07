@@ -1,0 +1,33 @@
+:global {
+  *,
+  :before,
+  :after {
+    box-sizing: border-box;
+  }
+
+  * {
+    outline: none !important;
+  }
+
+  html, body {
+    height: 100vh;
+  }
+
+  body, #root {
+    display: flex;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+  }
+
+  #root {
+    flex: 1;
+    flex-direction: column;
+    height: 100vh;
+  }
+}
