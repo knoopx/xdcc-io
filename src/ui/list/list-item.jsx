@@ -1,13 +1,17 @@
 import React from 'react'
+import { observer } from 'mobx-react'
+import classNames from 'classnames/bind'
 
-import { Row } from '../layout'
-import theme from '../theme'
+import style from './list-item.css'
 
-export default class ListItem extends React.PureComponent {
+const className = classNames.bind(style)
+
+@observer
+export default class ListItem extends React.Component {
   render() {
-    const { style, ...extraProps } = this.props
+    const { isActive, ...extraProps } = this.props
     return (
-      <Row style={{ alignItems: 'center', padding: '8px 16px', borderBottom: `1px solid ${theme.borderColor}`, ...style }} {...extraProps} />
+      <div className={className('default', { isActive })} {...extraProps} />
     )
   }
 }

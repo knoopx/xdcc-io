@@ -1,7 +1,6 @@
 import fs from 'fs'
 import net from 'net'
 import path from 'path'
-import homeDir from 'home-dir'
 import { queue } from 'async'
 import { observable, computed, map, action } from 'mobx'
 
@@ -75,8 +74,7 @@ export default class Bot {
 
     transfer.update({ file, size, status: `Connecting to ${ip}:${port}` })
 
-    const targetPath = homeDir('Downloads')
-    const stream = fs.createWriteStream(path.join(targetPath, file))
+    const stream = fs.createWriteStream(path.join(this.network.store.settings.downloadPath, file))
 
     stream.on('open', () => {
       const connection = net.connect(port, ip, () => {

@@ -12,10 +12,6 @@ export function uint32ToIP(n) {
   return `${byte4}.${byte3}.${byte2}.${byte1}`
 }
 
-export function random(max = 100) {
-  return Math.floor(Math.random() * max)
-}
-
 export function humanSizeToBytes(value, unit) {
   switch (unit.toUpperCase()) {
     case 'G': return value * 1073741824
@@ -24,31 +20,6 @@ export function humanSizeToBytes(value, unit) {
     default: return -1
   }
 }
-
-export function binaryInsert(array, cmp = (a, b) => a - b) {
-  return (current) => {
-    let left = 0
-    let right = array.length - 1
-
-    while (left <= right) {
-      const middle = (left + right) / 2 | 0
-      const result = cmp(array[middle], current)
-      if (result > 0) {
-        right = middle - 1
-        continue
-      }
-
-      left = middle + 1
-
-      if (result === 0) {
-        return
-      }
-    }
-
-    array.splice(left, 0, current)
-  }
-}
-
 
 export function parsePacket(msg) {
   const match = stripColorsAndStyle(msg).match(/(\d+)\s+(\d+)x\s+\[\s*[><]?([0-9.]+)([tgmkb]?)]\s+(.*)/i)
@@ -60,7 +31,6 @@ export function parsePacket(msg) {
 
   return false
 }
-
 
 export function parseDCCSendOffer(msg) {
   const parts = stripColorsAndStyle(msg).match(/DCC SEND ([^\s"]+|"[^"]+") (\d+) (\d+) (\d+)/)

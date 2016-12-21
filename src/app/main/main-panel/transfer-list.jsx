@@ -3,13 +3,17 @@ import { inject, observer } from 'mobx-react'
 
 import theme from 'ui/theme'
 import { Row, Column, Divider, Gutter } from 'ui/layout'
-import { List } from 'ui/list'
+import List from 'ui/list'
 
 import TransferListItem from './transfer-list-item'
 
-@inject('manager')
+@inject('store')
 @observer
 export default class TransferList extends React.Component {
+  renderItem(transfer, index) {
+    return <TransferListItem key={index} transfer={transfer} />
+  }
+
   render() {
     return (
       <Column style={{ flex: 1 }}>
@@ -18,11 +22,7 @@ export default class TransferList extends React.Component {
         </Row>
         <Divider />
         <Row style={{ flex: 1 }}>
-          <List style={{ overflow: 'auto' }}>
-            {this.props.manager.transfers.map((transfer, index) =>
-              <TransferListItem key={index} transfer={transfer} onClick={this.props.onClick} />,
-            )}
-          </List>
+          <List style={{ flex: 1, overflow: 'auto' }} items={this.props.store.transfers} renderItem={this.renderItem} />
         </Row>
       </Column>
     )

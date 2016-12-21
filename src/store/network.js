@@ -136,6 +136,6 @@ export default class Network {
     packet.addChannel(channel)
     bot.addChannel(channel)
     channel.addBot(bot)
-    this.manager.addPacket(packet)
+    this.store.addPacket(packet)
   }
 }

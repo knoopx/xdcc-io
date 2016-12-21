@@ -10,7 +10,7 @@ import PacketList from './packet-list'
 import TransferList from './transfer-list'
 import SearchPanel from './search-panel'
 
-@inject('manager')
+@inject('store')
 @observer
 export default class MainPanel extends React.Component {
   render() {

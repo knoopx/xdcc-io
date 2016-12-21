@@ -1,0 +1,12 @@
+.default {
+  display: flex;
+  flex-direction: row;
+}
+
+.default + .default {
+  border-top: 1px solid #dee2e6;
+}
+
+.isActive {
+  background-color: #f8f9fa;
+}

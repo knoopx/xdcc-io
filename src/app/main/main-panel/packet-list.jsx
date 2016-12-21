@@ -1,10 +1,11 @@
 import React from 'react'
 import VirtualList from 'react-mobx-virtual-list'
 
+import { autobind } from 'core-decorators'
 import { observable, action, runInAction, autorunAsync } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
-import { binaryInsert } from 'stores/support'
+import { binaryInsert } from 'support'
 
 import PacketListItem from './packet-list-item'
 import Spinner from 'ui/spinner'
@@ -25,7 +26,8 @@ function isMatch(packet, filter) {
   }, true)
 }
 
-@inject('manager')
+@inject('store')
+@autobind
 @observer
 export default class extends React.Component {
   @observable isFiltering = false
@@ -35,26 +37,26 @@ export default class extends React.Component {
 
   componentWillMount() {
     this.disposeFilter = autorunAsync(() => {
-      const { query, channels } = this.props.manager.filter
+      const { query, channels } = this.props.store.filter
       if (query.length > 0 || channels.length > 0) {
         this.setIsFiltering(true)
         setImmediate(() => {
           runInAction(() => {
-            this.matches.replace(this.props.manager.packets.filter(p => isMatch(p, this.props.manager.filter)))
+            this.matches.replace(this.props.store.packets.filter(p => isMatch(p, this.props.store.filter)))
             this.setIsFiltering(false)
           })
         })
       } else {
         runInAction(() => {
-          this.matches.replace(this.props.manager.packets)
+          this.matches.replace(this.props.store.packets)
         })
       }
     }, 200)
 
-    this.disposePackets = this.props.manager.packets.observe((changes) => {
+    this.disposePackets = this.props.store.packets.observe((changes) => {
       runInAction(() => {
         changes.added.forEach((p) => {
-          if (isMatch(p, this.props.manager.filter)) {
+          if (isMatch(p, this.props.store.filter)) {
             this.addPacketSorted(p)
           }
         })
@@ -72,11 +74,11 @@ export default class extends React.Component {
     this.isFiltering = value
   }
 
-  renderPacket = (packet, key) => (
-    <PacketListItem key={key} packet={packet} onClick={this.props.onClick} />
-  )
+  renderPacket(packet, key) {
+    return <PacketListItem key={key} packet={packet} />
+  }
 
-  render = () => {
+  render() {
     if (this.isFiltering) {
       return <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}><Spinner size={8} /></div>
     }

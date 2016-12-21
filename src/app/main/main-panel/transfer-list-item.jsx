@@ -1,24 +1,25 @@
 import React from 'react'
 import { observer } from 'mobx-react'
+import { autobind } from 'core-decorators'
 
-import { ListItem } from 'ui/list'
 import { Row, Column, Gutter } from 'ui/layout'
-import { humanFileSize } from 'support/format'
+import { humanFileSize } from 'support'
 
 import ProgressBar from 'ui/progress-bar'
 import Button from 'ui/button'
 import StopIcon from 'react-icons/lib/fa/times-circle'
 
+@autobind
 @observer
 export default class TransferListItem extends React.Component {
-  abort = () => {
+  abort() {
     this.props.transfer.abort()
   }
 
   render() {
     const { file, status, received, size, progress } = this.props.transfer
     return (
-      <ListItem>
+      <Row style={{ flex: 1, padding: '8px 16px' }}>
         <Column style={{ flex: 1 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <strong>{file}</strong>
@@ -49,7 +50,7 @@ export default class TransferListItem extends React.Component {
         <Column style={{ flex: 'none', alignSelf: 'center' }}>
           <Button onClick={this.abort}><StopIcon size={16} /></Button>
         </Column>
-      </ListItem>
+      </Row>
     )
   }
 }

@@ -4,13 +4,13 @@ import { Row } from 'ui/layout'
 
 import NetworkListItem from './network-list-item'
 
-@inject('manager')
+@inject('store')
 @observer
 export default class NetworkList extends React.Component {
   render() {
     return (
       <Row style={{ flex: 1, display: 'block', overflow: 'auto' }}>
-        {this.props.manager.networks.map(network =>
+        {this.props.store.networks.map(network =>
           <NetworkListItem
             key={network.key}
             network={network}
