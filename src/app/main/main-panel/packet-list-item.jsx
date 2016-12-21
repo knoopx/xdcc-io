@@ -1,9 +1,11 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 
-import { ListItem } from 'ui/list'
+
 import { Row, Column, Gutter } from 'ui/layout'
-import { humanFileSize } from 'support/format'
+import theme from 'ui/theme'
+import { humanFileSize } from 'support'
+
 
 @observer
 export default class extends React.Component {
@@ -11,7 +13,7 @@ export default class extends React.Component {
     packet: React.PropTypes.object.isRequired,
   }
 
-  onClick = () => {
+  onClick() {
     this.props.packet.bot.requestPacket(this.props.packet.number)
   }
 
@@ -19,7 +21,7 @@ export default class extends React.Component {
     const { packet } = this.props
 
     return (
-      <ListItem onClick={this.onClick}>
+      <Row style={{ padding: '8px 16px', borderBottom: `1px solid ${theme.borderColor}`, cursor: 'pointer' }} onClick={this.onClick}>
         <Column style={{ width: '40px', textAlign: 'right' }}>
           {`${packet.downloadCount}x`}<small>{`#${packet.number}`}</small></Column>
         <Gutter />
@@ -31,7 +33,7 @@ export default class extends React.Component {
         <Column style={{ flex: 'none' }}>
           {humanFileSize(packet.size)}
         </Column>
-      </ListItem>
+      </Row>
     )
   }
 }

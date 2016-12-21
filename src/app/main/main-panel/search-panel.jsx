@@ -2,15 +2,17 @@ import React from 'react'
 import { action } from 'mobx'
 import { observer, inject } from 'mobx-react'
 
+
 import Input from 'ui/input'
 import theme from 'ui/theme'
 import { Row, Column, Gutter } from 'ui/layout'
 
-@inject('manager')
+@inject('store')
+
 @observer
 export default class SearchPanel extends React.Component {
-  @action onChange = (e) => {
-    this.props.manager.setQuery(e.target.value)
+  @action onChange(e) {
+    this.props.store.setQuery(e.target.value)
   }
 
   render() {

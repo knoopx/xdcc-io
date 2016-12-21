@@ -11,7 +11,7 @@ export default class Gutter extends React.PureComponent {
 
   render() {
     return (
-      <div style={{ width: this.props.size }} />
+      <div style={{ width: this.props.size, height: this.props.size }} />
     )
   }
 }

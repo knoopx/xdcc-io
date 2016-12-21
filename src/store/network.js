@@ -1,7 +1,7 @@
 import firstBy from 'thenby'
 import Client from 'squelch-client'
 import deferred from 'defer-decorator'
-import { observable, computed, transaction, action, runInAction, map } from 'mobx'
+import { observable, computed, action, runInAction, map } from 'mobx'
 import { flatMap } from 'lodash'
 
 import Channel from './channel'
@@ -11,14 +11,14 @@ import { parsePacket, parseDCCSendOffer } from './support'
 
 export default class Network {
   @observable isConnected = false;
-  @observable botMap = map()
-  @observable channelMap = map()
+  @observable botMap = new Map()
+  @observable channelMap = new Map()
 
   constructor(props) {
     const { channels, ...extraProps } = props
     Object.assign(this, extraProps)
     this.key = props.name
-    transaction(() => {
+    runInAction(() => {
       channels.forEach((channel) => {
         this.upsertChannel(channel.toLocaleLowerCase())
       })
@@ -136,6 +136,6 @@ export default class Network {
     packet.addChannel(channel)
     bot.addChannel(channel)
     channel.addBot(bot)
-    this.manager.addPacket(packet)
+    this.store.addPacket(packet)
   }
 }

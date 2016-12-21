@@ -13,12 +13,6 @@ module.exports = {
   plugins: [
     new webpack.ExternalsPlugin('commonjs', Object.keys(dependencies)),
     new webpack.NamedModulesPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        postcss: [require('postcss-smart-import'), require('precss'), require('autoprefixer')],
-        context: __dirname,
-      },
-    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
@@ -43,7 +37,6 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           path.resolve('./src'),
-          path.resolve('./node_modules/react-mobx-virtual-list'),
           path.resolve('./node_modules/react-icons'),
         ],
       },
